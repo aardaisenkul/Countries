@@ -16,6 +16,7 @@
 		5A291E2027930A5B00480C9B /* CountriesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A291E1F27930A5B00480C9B /* CountriesTests.swift */; };
 		5A291E2A27930A5B00480C9B /* CountriesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A291E2927930A5B00480C9B /* CountriesUITests.swift */; };
 		5A291E2C27930A5B00480C9B /* CountriesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A291E2B27930A5B00480C9B /* CountriesUITestsLaunchTests.swift */; };
+		5A291E3927930BFC00480C9B /* SavedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A291E3827930BFC00480C9B /* SavedViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		5A291E2527930A5B00480C9B /* CountriesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountriesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A291E2927930A5B00480C9B /* CountriesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesUITests.swift; sourceTree = "<group>"; };
 		5A291E2B27930A5B00480C9B /* CountriesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5A291E3827930BFC00480C9B /* SavedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			children = (
 				5A291E0827930A5A00480C9B /* AppDelegate.swift */,
 				5A291E0A27930A5A00480C9B /* SceneDelegate.swift */,
+				5A291E3827930BFC00480C9B /* SavedViewController.swift */,
 				5A291E0C27930A5A00480C9B /* ViewController.swift */,
 				5A291E0E27930A5A00480C9B /* Main.storyboard */,
 				5A291E1127930A5B00480C9B /* Assets.xcassets */,
@@ -260,6 +263,7 @@
 			files = (
 				5A291E0D27930A5A00480C9B /* ViewController.swift in Sources */,
 				5A291E0927930A5A00480C9B /* AppDelegate.swift in Sources */,
+				5A291E3927930BFC00480C9B /* SavedViewController.swift in Sources */,
 				5A291E0B27930A5A00480C9B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

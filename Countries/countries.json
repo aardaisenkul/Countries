@@ -1,0 +1,63 @@
+{
+  "data": [
+    {
+      "code": "VA",
+      "currencyCodes": [
+        "EUR"
+      ],
+      "name": "Vatican City",
+      "wikiDataId": "Q237"
+    },
+    {
+      "code": "ET",
+      "currencyCodes": [
+        "ETB"
+      ],
+      "name": "Ethiopia",
+      "wikiDataId": "Q115"
+    },
+    {
+      "code": "ME",
+      "currencyCodes": [
+        "EUR"
+      ],
+      "name": "Montenegro",
+      "wikiDataId": "Q236"
+    },
+    {
+      "code": "NA",
+      "currencyCodes": [
+        "NAD",
+        "ZAR"
+      ],
+      "name": "Namibia",
+      "wikiDataId": "Q1030"
+    },
+    {
+      "code": "GH",
+      "currencyCodes": [
+        "GHS"
+      ],
+      "name": "Ghana",
+      "wikiDataId": "Q117"
+    }
+  ],
+  "links": [
+    {
+      "rel": "first",
+      "href": "/v1/geo/countries?offset=0&limit=5&rapidapi-key=eef67dcbacmsha0afe59474c638ep1a66f9jsn3e66a84ab8fb"
+    },
+    {
+      "rel": "next",
+      "href": "/v1/geo/countries?offset=5&limit=5&rapidapi-key=eef67dcbacmsha0afe59474c638ep1a66f9jsn3e66a84ab8fb"
+    },
+    {
+      "rel": "last",
+      "href": "/v1/geo/countries?offset=195&limit=5&rapidapi-key=eef67dcbacmsha0afe59474c638ep1a66f9jsn3e66a84ab8fb"
+    }
+  ],
+  "metadata": {
+    "currentOffset": 0,
+    "totalCount": 199
+  }
+}

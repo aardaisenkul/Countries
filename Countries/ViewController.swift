@@ -7,34 +7,6 @@
 
 import UIKit
 
-struct FetchData: Codable {
-    let data:[CountryData]
-    let links: [Links]
-    let metadata: MetaData
-}
-struct Links: Codable {
-    let rel: String
-    let href: String
-}
-struct MetaData: Codable{
-    let currentOffset : Int
-    let totalCount: Int
-    
-}
-struct CountryData: Codable {
-    let code:String
-    let name:String
-    var currencyCodes: [String]?
-    let wikiDataId: String
-}
-struct Veriler:Codable {
-    var userId:Int
-    var id:Int
-    var title:String
-    var body:String
-    
-}
-
 class ViewController: UIViewController {
 
   
@@ -43,7 +15,8 @@ class ViewController: UIViewController {
     var countryArray = [CountryData]()
     
     override func viewDidLoad() {
-        getCountries()
+        //getCountries()
+        getNewCountries()
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
@@ -53,6 +26,9 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
        
         
+    }
+    func getNewCountries(){
+        countryArray = CountryDetailService.shared.parseCountryJSON()!
     }
     func getCountries() {
         
@@ -97,7 +73,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "showDetail", sender: nil)
+        performSegue(withIdentifier: "showDetail", sender: countryArray[indexPath.row].code)
         tableView.deselectRow(at: indexPath, animated: true)
 
     }

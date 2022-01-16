@@ -1,0 +1,14 @@
+{
+  "data": {
+    "capital": "Ankara",
+    "code": "TR",
+    "callingCode": "+90",
+    "currencyCodes": [
+      "TRY"
+    ],
+    "flagImageUri": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Turkey.svg",
+    "name": "Turkey",
+    "numRegions": 81,
+    "wikiDataId": "Q43"
+  }
+}

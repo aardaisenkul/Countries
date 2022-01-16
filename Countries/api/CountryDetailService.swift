@@ -17,9 +17,7 @@ class CountryDetailService {
         do {
            
             let jsonData = try Data(contentsOf: url)
-            print(jsonData)
             let data = try JSONDecoder().decode(DetailedData.self, from: jsonData)
-            print(data)
             var country:DetailedCountry?
             country = data.data
             
@@ -34,13 +32,9 @@ class CountryDetailService {
         guard let url = Bundle.main.url(forResource: "countries", withExtension: "json") else {
             return nil
         }
-        
         do {
-           
             let jsonData = try Data(contentsOf: url)
-            print(jsonData)
             let data = try JSONDecoder().decode(FetchData.self, from: jsonData)
-            print(data)
             var country:[CountryData]?
             country = data.data
             

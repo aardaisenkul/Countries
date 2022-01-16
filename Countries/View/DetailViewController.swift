@@ -8,6 +8,7 @@
 import UIKit
 import SDWebImage
 import SDWebImageSVGCoder
+import CoreData
 
 class DetailViewController: UIViewController , UINavigationBarDelegate {
 
@@ -21,37 +22,32 @@ class DetailViewController: UIViewController , UINavigationBarDelegate {
         view.backgroundColor = .systemGray6
         navigationController?.navigationBar.tintColor = .label
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.left"),  style: .done, target: self, action: #selector(goBack))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"),  style: .done, target: self, action: #selector(goBack))
-        getDetails2(code: self.selectedCountryCode)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"),  style: .done, target: self, action: #selector(setFavorite))
+        getDetails(code: self.selectedCountryCode)
         // Do any additional setup after loading the view.
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-      //countryDetail = CountryDetailService.shared.parseJSON()!
-        
-       
-    }
     override func viewDidAppear(_ animated: Bool) {
         prepareImg(urlString:detailViewModel.link,countryCode: detailViewModel.code,title: detailViewModel.name)
     }
     
     
+//    func getDetails(code:String){
+//            let url = URL(string:"https://wft-geo-db.p.rapidapi.com/v1/geo/countries/\(code)?rapidapi-key=eef67dcbacmsha0afe59474c638ep1a66f9jsn3e66a84ab8fb")!
+//            URLSession.shared.dataTask(with: url) { data, response, error in
+//                do {
+//                    let details = try JSONDecoder().decode(DetailedData.self, from: data!)
+//                    DispatchQueue.main.async {
+//                        self.countryDetail = details.data
+//                    }
+//                }
+//                catch{
+//                    print("error")
+//                }
+//            }.resume()
+//
+//    }
     func getDetails(code:String){
-            let url = URL(string:"https://wft-geo-db.p.rapidapi.com/v1/geo/countries/\(code)?rapidapi-key=eef67dcbacmsha0afe59474c638ep1a66f9jsn3e66a84ab8fb")!
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                do {
-                    let details = try JSONDecoder().decode(DetailedData.self, from: data!)
-                    DispatchQueue.main.async {
-                        self.countryDetail = details.data
-                    }
-                }
-                catch{
-                    print("error")
-                }
-            }.resume()
-        
-    }
-    func getDetails2(code:String){
         let url = URL(string: "https://wft-geo-db.p.rapidapi.com/v1/geo/countries/\(code)?rapidapi-key=eef67dcbacmsha0afe59474c638ep1a66f9jsn3e66a84ab8fb")!
         Webservice().fetchDetail(url: url) { details in
             
@@ -64,6 +60,24 @@ class DetailViewController: UIViewController , UINavigationBarDelegate {
     
     @objc func goBack(){
         self.navigationController?.popViewController(animated: true)
+    }
+    @objc func setFavorite(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let newCountryCode = NSEntityDescription.insertNewObject(forEntityName: "SavedCountries", into: context)
+        
+        // Attributes
+        
+        newCountryCode.setValue(selectedCountryCode, forKey: "countryCode")
+        self.navigationItem.rightBarButtonItem!.image = UIImage(systemName: "star.fill")
+        do {
+            try context.save()
+            print("successfully saved")
+        }
+        catch {
+            print("error")
+        }
     }
 
     @IBAction func moreInfoClicked(_ sender: Any) {

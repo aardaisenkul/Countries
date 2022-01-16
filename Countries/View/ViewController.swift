@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
 
@@ -14,6 +15,7 @@ class ViewController: UIViewController {
     var selectedCode:String = ""
     var countryArray = [CountryData]()
     private var countryListViewModel : CountryListViewModel!
+    var savedCountries : [String] = []
     
     override func viewDidLoad() {
         getNewCountries()
@@ -40,6 +42,30 @@ class ViewController: UIViewController {
             }
         }
     }
+    func getSavedCountries(){
+        savedCountries.removeAll(keepingCapacity: false)
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "SavedCountries")
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            if results.count > 0 {
+                for result in results as! [NSManagedObject] {
+                    if let code = result.value(forKey: "countryCode") as? String {
+                        self.savedCountries.append(code)
+                    }
+                    self.tableView.reloadData()
+                }
+            }
+        } catch {
+            print("error while fetching coredata")
+        }
+        
+    }
 }
 
 // SAME EXTENSION AS DETAILED VIEW
@@ -58,11 +84,10 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
         let country = self.countryListViewModel.countryAtIndex(indexPath.row)
         cell.countryLabel.text = country.name
         // 1.0 for fill 0.2 for empty
-        cell.countryFavImage.alpha = 0.2
+        cell.countryFavImage.alpha = self.savedCountries.contains(country.code) ? 1 : 0.2
         cell.countryView.layer.borderColor = UIColor.black.cgColor
         cell.countryView.layer.borderWidth = 2.0
         cell.countryView.layer.cornerRadius = 8
-        
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -15,12 +15,20 @@ class DetailViewController: UIViewController , UINavigationBarDelegate {
         super.viewDidLoad()
         title = "Country Name"
         view.backgroundColor = .systemGray6
+        navigationController?.navigationBar.tintColor = .label
         configureNavBar()
         // Do any additional setup after loading the view.
     }
     
     private func configureNavBar() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.left"),  style: .done, target: self, action: #selector(goBack))
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"),  style: .done, target: self, action: #selector(goBack))
+        
+       
+    }
+    @objc func goBack(){
+        self.navigationController?.popViewController(animated: true)
     }
 
     @IBAction func moreInfoClicked(_ sender: Any) {

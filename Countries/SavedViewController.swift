@@ -47,4 +47,9 @@ extension SavedViewController : UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showDetail", sender: nil)
+        savedTableView.deselectRow(at: indexPath, animated: true)
+
+    }
 }

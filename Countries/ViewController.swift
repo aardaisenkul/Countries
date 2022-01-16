@@ -43,6 +43,7 @@ class ViewController: UIViewController {
     var countryArray = [CountryData]()
     
     override func viewDidLoad() {
+        getCountries()
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
@@ -50,7 +51,7 @@ class ViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         // Do any additional setup after loading the view.
-        //getCountries()
+       
         
     }
     func getCountries() {
@@ -59,8 +60,11 @@ class ViewController: UIViewController {
         URLSession.shared.dataTask(with: url) { data, response, error in
             do {
                 let users = try JSONDecoder().decode(FetchData.self, from: data!)
-                self.countryArray = users.data
-                print(self.countryArray)
+                DispatchQueue.main.async {
+                    self.countryArray = users.data
+                    self.tableView.reloadData()
+                }
+              
             }
             catch{
                 print("error")
@@ -77,20 +81,25 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countries.count
+        return countryArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "countryCell") as! CountryTableViewCell
-        let country = countries[indexPath.row]
-        cell.countryLabel.text = country
+        let country = countryArray[indexPath.row]
+        cell.countryLabel.text = country.name
         // 1.0 for fill 0.3 for empty
-        cell.countryFavImage.alpha = 0.3
+        cell.countryFavImage.alpha = 0.2
         cell.countryView.layer.borderColor = UIColor.black.cgColor
         cell.countryView.layer.borderWidth = 2.0
         cell.countryView.layer.cornerRadius = 8
         
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showDetail", sender: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
+
     }
 }
 

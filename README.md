@@ -91,6 +91,11 @@ After install required pod files, you can directly launch the app in XCode. Afte
    ```sh
    pod install
    ```
+   If you have macbook with M1 Chip you can install pod files wia
+   ```sh
+   sudo arch -x86_64 gem install ffi
+    arch -x86_64 pod install
+   ```
 4. Enter your API in `RapidAPI`
    ```swift
    let API_KEY = 'ENTER YOUR API';
@@ -105,9 +110,10 @@ After install required pod files, you can directly launch the app in XCode. Afte
 * IOS 15.x 
 
 <!-- USAGE EXAMPLES -->
-## Screenshots
-
-Will be added
+## Visual
+| Demo |  
+| --- | 
+| ![Preview](gif.gif) | 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

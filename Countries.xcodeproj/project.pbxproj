@@ -144,9 +144,7 @@
 				5A8953B627949766003356EC /* ViewModel */,
 				5A8953B32794971E003356EC /* Model */,
 				5A8953B0279491C7003356EC /* Service */,
-				5A6BFEC72794090900E81E42 /* api */,
-				5A6BFEC5279408FC00E81E42 /* detail.json */,
-				5A8953AE27943B67003356EC /* countries.json */,
+				5A6BFEC72794090900E81E42 /* LocalApi */,
 				5A291E46279335D800480C9B /* AppDelegate.swift */,
 				5A291E48279335D800480C9B /* SceneDelegate.swift */,
 				5A291E4C279335D800480C9B /* Main.storyboard */,
@@ -175,12 +173,14 @@
 			path = CountriesUITests;
 			sourceTree = "<group>";
 		};
-		5A6BFEC72794090900E81E42 /* api */ = {
+		5A6BFEC72794090900E81E42 /* LocalApi */ = {
 			isa = PBXGroup;
 			children = (
+				5A6BFEC5279408FC00E81E42 /* detail.json */,
+				5A8953AE27943B67003356EC /* countries.json */,
 				5A6BFEC82794093500E81E42 /* CountryDetailService.swift */,
 			);
-			path = api;
+			path = LocalApi;
 			sourceTree = "<group>";
 		};
 		5A8953B0279491C7003356EC /* Service */ = {

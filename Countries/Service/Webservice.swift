@@ -35,10 +35,16 @@ class Webservice {
                 print(error.localizedDescription)
                 completion(nil)
             } else if let data = data {
-                let result = try? JSONDecoder().decode(DetailedData.self, from: data)
-                if let result = result {
+                do{
+                    
+                    let result = try JSONDecoder().decode(DetailedData.self, from: data)
                     completion(result.data)
+                }catch{
+                    print("Failed to parse data!")
+                    completion(nil)
                 }
+                
+                
                 
             }
             

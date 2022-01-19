@@ -18,54 +18,52 @@ class ViewController: UIViewController {
     var savedCountries : [String] = []
     
     override func viewDidLoad() {
-        getNewCountries()
+        getCountries()
+       // getLocaleCountries()
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableViewData), name: NSNotification.Name(rawValue: "reloadData"),object: nil)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
     }
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
     
-    func getNewCountries(){
+    @objc func reloadTableViewData() {
+        tableView.reloadData()
+    }
+    
+    
+    @objc func getCountries(){
         
         let url = URL(string: "https://wft-geo-db.p.rapidapi.com/v1/geo/countries?limit=10&rapidapi-key=eef67dcbacmsha0afe59474c638ep1a66f9jsn3e66a84ab8fb")!
         
         Webservice().fetchCountries(url: url) { countries in
             
             if let countries = countries {
-                
                 self.countryListViewModel = CountryListViewModel(countryList: countries)
-                
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
+                self.getSavedCountryNames()
             }
         }
     }
-    func getSavedCountries(){
-        savedCountries.removeAll(keepingCapacity: false)
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "SavedCountries")
-        fetchRequest.returnsObjectsAsFaults = false
-        
-        do {
-            let results = try context.fetch(fetchRequest)
-            if results.count > 0 {
-                for result in results as! [NSManagedObject] {
-                    if let code = result.value(forKey: "countryCode") as? String {
-                        self.savedCountries.append(code)
-                    }
-                    self.tableView.reloadData()
-                }
-            }
-        } catch {
-            print("error while fetching coredata")
+    func getLocaleCountries(){
+        countryArray = CountryDetailService.shared.parseCountryJSON()!
+        self.countryListViewModel = CountryListViewModel(countryList: countryArray)
+        self.tableView.reloadData()
+       }
+    @objc func getSavedCountryNames(){ // METHOD FOR FIRST CONTROL TO CHECK FAVORITED COUNTRIES
+        DispatchQueue.main.async {
+            self.savedCountries = self.countryListViewModel.savedCountries()
+            self.tableView.reloadData()
         }
-        
+       
     }
+    
 }
 
 // SAME EXTENSION AS DETAILED VIEW
@@ -83,6 +81,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "countryCell") as! CountryTableViewCell
         let country = self.countryListViewModel.countryAtIndex(indexPath.row)
         cell.countryLabel.text = country.name
+        cell.countryCode = country.code
         // 1.0 for fill 0.2 for empty
         cell.countryFavImage.alpha = self.savedCountries.contains(country.code) ? 1 : 0.2
         cell.countryView.layer.borderColor = UIColor.black.cgColor

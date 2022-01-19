@@ -60,7 +60,10 @@ extension CountryTableViewCell {
             if results.count > 0 {
                 for result in results as! [NSManagedObject] {
                     context.delete(result)
-                    self.listViewModel.removeItem(code: countryCode)
+                    if page == "Saved" {
+                        self.listViewModel.removeItem(code: countryCode)
+                    }
+                    
                 }
             }else{
                 let newCountryCode = NSEntityDescription.insertNewObject(forEntityName: "SavedCountries", into: context)

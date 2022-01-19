@@ -135,9 +135,18 @@ Will be added
 <!-- FEATURES -->
 ## Features
 1. CoreData is used for handling to add/remove countries to the saved list
-2. Data layer(repository): consist of the api logics for "Main" and "Saved" pages
-3. ViewModel layer: consists of only business logics for each screen
-4. View layer: consists of view controllers and storyboards
+2. Data layer(repository): includes model needs for api logic tabbar pages
+3. ViewModel layer: includes some methods and logic that can be useful
+4. View layer: includes of view controllers and storyboards
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+<!-- THINGS THAT COULD BE BETTER -->
+## Things That Could Be Better
+1. Kazakhistan country flag size can be optimized because its size or type are not like others
+2. Instant refresh could be better on saved page when user interacts with favorite process. 
+3. Some performance improvements can be made to make app durable
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

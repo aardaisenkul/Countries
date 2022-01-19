@@ -5,6 +5,7 @@
 //  Created by Ali Arda İsenkul on 15.01.2022.
 //
 
+// MARK: - ONLY CHANGES IN THIS CLASS ARE ADDED NEEDED IMPORTS, ADDED SVGCODER TO THE 21-22TH LINES
 import UIKit
 import CoreData
 import SDWebImage

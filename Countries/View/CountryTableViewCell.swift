@@ -10,10 +10,14 @@ import CoreData
 
 class CountryTableViewCell: UITableViewCell {
 
+    // MARK: - I CHOSE UI IMAGEVIEW FOR STAR ICON AND CHANGE ITS OPACITY FOR FAVORITE/UNFAVORITE
 
     @IBOutlet weak var countryView: UIView!
     @IBOutlet weak var countryLabel: UILabel!
     @IBOutlet weak var countryFavImage: UIImageView!
+    var page : String = "Main"
+    var currentTableView : UITableView!
+    var listViewModel : CountryListViewModel!
     var countryCode = ""
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,9 +31,8 @@ class CountryTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
+    
     @objc func addToFavorite(tapGestureRecognizer: UITapGestureRecognizer)
     {
         
@@ -40,20 +43,16 @@ class CountryTableViewCell: UITableViewCell {
             tappedImage.alpha = 0.2
         }
         self.changeFavoriteStatus(code:countryCode)
-       // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadData"), object: nil)
-
-        
-       
     }
 
 }
-
 // MARK: - Change Country Favorite Status
 extension CountryTableViewCell {
     func changeFavoriteStatus(code:String){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "SavedCountries")
+       
         fetchRequest.predicate = NSPredicate(format: "countryCode = %@", code)
         fetchRequest.returnsObjectsAsFaults = false
         do {
@@ -61,6 +60,7 @@ extension CountryTableViewCell {
             if results.count > 0 {
                 for result in results as! [NSManagedObject] {
                     context.delete(result)
+                    self.listViewModel.removeItem(code: countryCode)
                 }
             }else{
                 let newCountryCode = NSEntityDescription.insertNewObject(forEntityName: "SavedCountries", into: context)
@@ -68,7 +68,8 @@ extension CountryTableViewCell {
             }
             do {
                 try context.save()
-                print("successfully saved")
+                print("coredata successfully saved")
+               
             }
             catch {
                 print("error while coredata saving for favorite process")
@@ -76,8 +77,19 @@ extension CountryTableViewCell {
         } catch{
             print("core data fetching favorited object")
         }
-      
     }
+}
 
-
+// MARK: - TRYING TO ADD AN EXTENSION TO TRIGGER VIEWCONTROLLER FROM CUSTOM CELL INSTANTLY BUT I DID NOT HAVE ENOUGH TIME AND LACK OF KNOWLEDGE
+extension UIView {
+    var parentViewController: UIViewController? {
+        var parentResponder: UIResponder? = self
+        while parentResponder != nil {
+            parentResponder = parentResponder!.next
+            if let viewController = parentResponder as? UIViewController {
+                return viewController
+            }
+        }
+        return nil
+    }
 }

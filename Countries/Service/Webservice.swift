@@ -5,6 +5,8 @@
 //  Created by Ali Arda İsenkul on 16.01.2022.
 //
 
+// MARK: - FETCHING SERVICES ARE DEFINED HERE
+
 import Foundation
 
 class Webservice {

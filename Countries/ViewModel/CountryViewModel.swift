@@ -33,13 +33,15 @@ struct CountryViewModel {
     }
 }
 // MARK: - Country Methods
-
-
 extension CountryListViewModel {
     
     func numberOfRowsInSection() -> Int {
          return self.countryList.count
      }
+    mutating func removeItem(code:String){
+        let countryIndex = self.countryList.firstIndex(where: {$0.code == code})
+        self.countryList.remove(at: countryIndex!)
+    }
     
     func countryAtIndex(_ index: Int) -> CountryViewModel {
         let country = self.countryList[index]

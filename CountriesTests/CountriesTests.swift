@@ -7,30 +7,34 @@
 
 import XCTest
 @testable import Countries
-
+//MARK: Added 2 tests before running the app. Checks the consistency of data
 class CountriesTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    //MARK: Test for fetching country data if it succeed, it has to give me 10 country name
+    func testCountryFetch() throws {
+        let limit = 10 // as you asked for
+        let url = URL(string: "https://wft-geo-db.p.rapidapi.com/v1/geo/countries?limit=\(limit)&rapidapi-key=eef67dcbacmsha0afe59474c638ep1a66f9jsn3e66a84ab8fb")!
+        
+        Webservice().fetchCountries(url: url) { countries in
+            if let countries = countries {
+                XCTAssertGreaterThan(5, countries.count)
+            }
         }
     }
+    
+  
+    //MARK: Test for fetching country detail if it succeed, it has to give me a name of country
+    func testPerformanceExample() throws {
+        // This is an example of a performance test case.
+        let code = "VA"
+        let url = URL(string: "https://wft-geo-db.p.rapidapi.com/v1/geo/countries/\(code)?rapidapi-key=eef67dcbacmsha0afe59474c638ep1a66f9jsn3e66a84ab8fb")!
+        
+        Webservice().fetchDetail(url: url) { details in
+            if let details = details {
+                XCTAssertNotNil(details.name)
+            }
+        }
+    }
+    
 
 }

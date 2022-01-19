@@ -5,6 +5,9 @@
 //  Created by Ali Arda İsenkul on 15.01.2022.
 //
 
+// MARK: - THERE ARE ONE ADDITIONAL METHOD WHICH SHARTS WITH LOCALE, IT IS MY TEST METHOD FOR PARSING JSON DATA SINCE THERE IS A LIMITATION OF 1000 REQUEST TO API
+// MARK: - THIS CLASS IS VERY SIMILAR TO VIEWCONTROLLER, TO INCREASE READABILITY AND MORE PROFESSIONALLY, A MAIN CLASS CAN BE WRITTEN AND REPRODUCE THERE 2 PAGES FROM IT
+
 import UIKit
 import CoreData
 
@@ -15,41 +18,30 @@ class SavedViewController: UIViewController {
     var savedCountryArray = [CountryData]()
     var savedCountryCodes = [String]()
     var selectedCode:String = ""
-    private var savedCountryListViewModel : CountryListViewModel!
+    var savedCountryListViewModel : CountryListViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableViewData), name: NSNotification.Name(rawValue: "reloadData"),object: nil)
         savedTableView.delegate = self
         savedTableView.dataSource = self
-        savedCountryCodes = savedCountries()
         savedTableView.separatorStyle = .none
         savedTableView.showsVerticalScrollIndicator = false
         //getLocaleCountries()
-        getCountries()
+        
         // Do any additional setup after loading the view.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-        savedTableView.reloadData()
+    override func viewWillAppear(_ animated: Bool) {
+        savedCountryCodes = savedCountries()
+        getCountries()
     }
-    @objc func reloadTableViewData() {
-//        var favC = [CountryData]()
-//            self.savedCountryCodes = savedCountries()
-//        for item in savedCountryArray {
-//            if savedCountryCodes.contains(item.code){
-//                favC.append(item)
-//            }
-//        }
-//        self.savedCountryListViewModel = CountryListViewModel(countryList: favC)
-        savedTableView.reloadData()
-    }
+    // MARK: - FETCH COUNTRTIES DATA
+
     func getCountries(){
         var favC = [CountryData]()
         let url = URL(string: "https://wft-geo-db.p.rapidapi.com/v1/geo/countries?limit=10&rapidapi-key=eef67dcbacmsha0afe59474c638ep1a66f9jsn3e66a84ab8fb")!
         
         Webservice().fetchCountries(url: url) { countries in
-            
+            // MARK: - MAIN DIFFERENCE IS HERE TO GET INTERSECTION OF SAVED COUNTRIES AND THE ONES WHICH FETCHED
             if let countries = countries {
                 for item in countries {
                     if self.savedCountryCodes.contains(item.code){
@@ -61,11 +53,11 @@ class SavedViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.savedTableView.reloadData()
                 }
-                self.getSavedCountryNames()
             }
         }
     }
-    
+   
+    // MARK: - LOCALE FETCH CALL
     func getLocaleCountries(){
         var favC = [CountryData]()
         savedCountryArray = CountryDetailService.shared.parseCountryJSON()!
@@ -81,7 +73,7 @@ class SavedViewController: UIViewController {
         }
        
        }
-    
+    // MARK: - SAVED COUNTRIES FROM VIEW MODEL
     @objc func getSavedCountryNames(){ // METHOD FOR FIRST CONTROL TO CHECK FAVORITED COUNTRIES
        
         DispatchQueue.main.async {
@@ -93,7 +85,7 @@ class SavedViewController: UIViewController {
     
 }
 
-// SAME EXTENSION AS MAIN VIEW
+// MARK: - SAME EXTENSION AS VIEW CONTROLLER
 extension SavedViewController : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -111,8 +103,11 @@ extension SavedViewController : UITableViewDataSource, UITableViewDelegate {
         cell.countryFavImage.alpha =  1 
         cell.countryCode = country.code
         cell.countryView.layer.borderColor = UIColor.black.cgColor
+        cell.currentTableView = self.savedTableView
         cell.countryView.layer.borderWidth = 2.0
         cell.countryView.layer.cornerRadius = 8
+        cell.page = "Saved"
+        cell.listViewModel = self.savedCountryListViewModel
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -126,6 +121,7 @@ extension SavedViewController : UITableViewDataSource, UITableViewDelegate {
         if segue.identifier == "showDetail" {
             let destinationVC = segue.destination as! DetailViewController
             destinationVC.selectedCountryCode = selectedCode
+            
         }
     }
     // MARK: - Saved Country Lists

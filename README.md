@@ -113,7 +113,7 @@ After install required pod files, you can directly launch the app in XCode. Afte
 ## Visual
 | Demo |  
 | --- | 
-| ![Preview](gif.gif) | 
+| ![Preview](app.gif) | 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
